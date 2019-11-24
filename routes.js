@@ -1,38 +1,22 @@
 const express = require("express");
 const MonkeyLearn = require("monkeylearn");
-const bodyParser = require('body-parser');
 
-const app = express();
+const router = express.Router();
 
 // Use the API key from your account
 // const ml = new MonkeyLearn("91dde518ac052dd863dd69eed8ddb12aaeee3c25");
 
-
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
-  next();
-});
-
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-
-app.use(express.static("public"));
-
-app.post('/absa', (req, res, next) => {
+router.post('/absa', (req, res, next) => {
   console.log(req.body);
-  console.log("test")
   res.status(201).json({
     message: 'Thing created successfully!',
     value: req.body
   });
 });
 
-/* app.get('/absa', (req, res, next) => {
-  console.log(req.body)
-  res.status(200);
-}); */
+router.get('/absa', (req, res, next) => {
+  res.status(200).json({body:req.param('er')});
+});
 
 const extractAPI = function(req, res, next){
   let data = [`The hotel has a great location but all in all it was a horrible experience! Only stayed here because it was the pre-accommodation choice for one of our tours but it was terrible. Will never stay here again!`]
@@ -57,13 +41,10 @@ const extractAPI = function(req, res, next){
   next () // call the next Middlleware.
 } */
 
-app.get('/test', extractAPI, (req, res) => {
-  //Middleware 3, code goes here 
+router.get('/test', extractAPI, (req, res) => {
+    //Middleware 3, code goes here
     res.json({data: req.extracts});
 })
-
-module.exports = app;
-
 
 /* const extractAPI = function(data) {
   let model_id = "ex_N4aFcea3";
@@ -85,7 +66,6 @@ module.exports = app;
       console.log(error.response);
     });
 };
-
 const classifyAPI = function(data) {
   let model_id = "cl_sGdE8hD9";
   ml.classifiers
@@ -103,7 +83,6 @@ const classifyAPI = function(data) {
       console.log(error.response);
     });
 };
-
 const sentimentAPI = function(data) {
   let model_id = 'cl_pi3C7JiL'
   ml.classifiers
@@ -141,8 +120,8 @@ const sentimentAPI = function(data) {
       console.log(error.response);
     });
 });
-
-app.use((req, res) => {
-  res.json(req.extracts); 
+router.use((req, res) => {
+  res.json(req.extracts);
 }); */
 
+module.exports = router;
