@@ -1,10 +1,11 @@
 function analyse(){
   // const data = document.getElementById('analyseText').value;
   const data = document.getElementById("userText").value;
-  console.log(data)
   fetch("http://localhost:3000/absa", {
     method: "POST",
-    // headers: new Headers(),
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8'
+    },
     body: JSON.stringify({ body: data })
   })
     .then(res => res.json())
