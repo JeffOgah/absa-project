@@ -8,33 +8,44 @@
     <link rel="stylesheet" href="styles/bootstrap.min.css" />
   </head>
   <body>
-    <header class="text-center py-4"><h2>Aspect Based Sentiment Analysis</h2></header>
+    <header class="text-center py-4">
+      <img src="assets/svg_bg.svg" height="150px"  />
+      <h2>Aspect Sentiment Analysis System</h2>
+    </header>
     <section>
-      <aside class="row">
-        <aside class="col-12 border"></aside>
-        <aside class="col border px-4 pt-3">
-          <form>
+      <aside class="row border">
+        <aside class="col-12"></aside>
+        <aside class="col border border-left pt-3">
+          <form class="px-4">
             <div class="form-group">
               <label for="userText" class="font-weight-bold"
-                >Enter text to analyze</label
+                ><h5 class="font-weight-bold">Enter text to analyze</h5></label
               >
               <textarea
                 class="form-control"
                 id="userText"
-                rows="15"
+                rows="10"
               ></textarea>
             </div>
             <input type="button" value="Analyse" id="analyseText" onclick="analyse()" class="btn btn-primary mb-2"/>
           </form>
         </aside>
         <aside class="col border">
-          Results
-          <div class="row">
-            <div class="col-8">
-                <p>Tag</p>
+          <div class="row pt-3">
+            <div class="col-6">
+                <h5 class="font-weight-bold mb-3">Tag</h5>
+                <p>Pricing (Positive)</p>
+                <p>Features (Negative)</p>
             </div>
-            <div class="col-4">
-                <p>Confidence</p>
+            <div class="col-3">
+                <h5 class="font-weight-bold mb-3">Aspect %</h5>
+                <p>85.5%</p>
+                <p>49.2%</p>
+            </div>
+            <div class="col-3">
+                <h5 class="font-weight-bold mb-3">Sentiment %</h5>
+                <p>66.2%</p>
+                <p>92.4%</p>
             </div>
           </div>
         </aside>
