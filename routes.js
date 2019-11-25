@@ -18,7 +18,7 @@ const extractAPI = function(req, res, next) {
       let [{ extractions: result }] = response.body;
       let extracts = result.flatMap(x => x.extracted_text);
       req.extracts = extracts;
-      console.log(req.extracts);
+      console.log(`req.extracts: ${req.extracts}`);
       next();
       // res.status(200).json({ value: req.extracts });
     })
@@ -29,7 +29,7 @@ const extractAPI = function(req, res, next) {
 };
 
 //Middleware for extracting aspects
-const classifyAPI = function(req, res, next) {
+/* const classifyAPI = function(req, res, next) {
   let model_id = "cl_sGdE8hD9";
   let data = [...req.extracts];
   req.aspects = [];
@@ -44,9 +44,9 @@ const classifyAPI = function(req, res, next) {
             x.confidence * 100
           ]);
           req.aspects.push(aspect);
-          /*             if (!req.aspects.flatMap(x => x[0]).includes(aspect.tag_name)) {
+          //          if (!req.aspects.flatMap(x => x[0]).includes(aspect.tag_name)) {
               req.aspects.push(aspect);
-            } */
+        // }
         })
         .catch(error => {
           console.log(error.response);
@@ -54,6 +54,32 @@ const classifyAPI = function(req, res, next) {
     }
   }
   Promise.all([getAspect(), next()]);
+}; */
+const classifyAPI = async function(req, res, next) {
+  let model_id = "cl_sGdE8hD9";
+  let data = [...req.extracts];
+  req.aspects = ["req.aspects"];
+  data.forEach(async element => {
+    await ml.classifiers
+    .classify(model_id, [element])
+    .then(response => {
+      let [{ classifications }] = response.body;
+      let aspect = classifications.map(x => [
+        x.tag_name,
+        x.confidence * 100
+      ]);
+      req.aspects.push(aspect);
+      console.log(`Classifications: ${classifications}`)
+      console.log(`Aspect: ${aspect}`)
+      /*             if (!req.aspects.flatMap(x => x[0]).includes(aspect.tag_name)) {
+          req.aspects.push(aspect);
+        } */
+    })
+    .catch(error => {
+      console.log(error.response);
+    });
+  });
+   next()
 };
 
 //Middleware for predicting sentiment
@@ -71,6 +97,7 @@ const sentimentAPI = function(req, res, next) {
             x.tag_name,
             x.confidence * 100
           ]);
+          console.log(`sentiment: ${sentiment}`)
           req.sentiments.push(sentiment);
           /*             if (!req.aspects.flatMap(x => x[0]).includes(aspect.tag_name)) {
               req.aspects.push(aspect);
