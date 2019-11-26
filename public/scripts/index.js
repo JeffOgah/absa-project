@@ -1,7 +1,7 @@
 function analyse(){
   // const data = document.getElementById('analyseText').value;
   const data = document.getElementById("userText").value;
-  fetch("http://localhost:3000/absa", {
+  fetch("http://localhost:3000/test", {
     method: "POST",
     headers: {
       'Content-Type': 'application/json; charset=utf-8'
