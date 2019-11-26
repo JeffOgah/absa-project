@@ -4,7 +4,7 @@ const MonkeyLearn = require("monkeylearn");
 const router = express.Router();
 
 // Use the API key from your account
-const ml = new MonkeyLearn("91dde518ac052dd863dd69eed8ddb12aaeee3c25");
+const ml = new MonkeyLearn("9fe3876156ed45bcb4aee8f453ff1ac640bd6844");
 
 //POST route to perform the task of aspect sentiment analysis
 router.post('/absa', async (req, res) => {
@@ -28,7 +28,7 @@ router.post('/absa', async (req, res) => {
         element
       ]);
       const [{ classifications }] = classifyResponse.body;
-      const aspect = classifications.map((x) => [
+      const aspect = classifications.flatMap((x) => [
         x.tag_name,
         x.confidence * 100
       ]);
@@ -46,7 +46,7 @@ router.post('/absa', async (req, res) => {
         element
       ]);
       const [{ classifications }] = classifyResponse.body;
-      const sentiment = classifications.map((x) => [
+      const sentiment = classifications.flatMap((x) => [
         x.tag_name,
         x.confidence * 100
       ]);
@@ -55,7 +55,7 @@ router.post('/absa', async (req, res) => {
     console.log(sentimentArray);
 
 
-    return res.status(200).json({ extracts, aspectArray });
+    return res.status(200).json({ aspectArray, sentimentArray });
   } catch (error) {
     return console.log(error);
   }
